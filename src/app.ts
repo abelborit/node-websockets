@@ -5,6 +5,8 @@ const wss = new WebSocketServer({ port: 3000 });
 wss.on("connection", function connection(ws) {
   console.log("Client connected ✅");
 
+  // console.log(ws);
+
   ws.on("error", console.error);
 
   ws.on("message", function message(data) {
@@ -17,6 +19,10 @@ wss.on("connection", function connection(ws) {
   // setInterval(() => {
   //   ws.send("Hello again");
   // }, 2000);
+
+  ws.on("close", () => {
+    console.log("Client Disconnected ⚡");
+  });
 });
 
 /* cuando nos queramos conectar mediante websocket no se usa el http sino el ws. Entonces para usarlo por ejemplo en Postman sería -- ws://localhost:3000 -- aunque Postman lo colocará automáticamente entonces sería solo -- localhost:3000 -- */

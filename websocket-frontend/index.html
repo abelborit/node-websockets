@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <!-- para levantar el frontend colocaremos en la termianl -- npx http-server -o -- -->
+  <body>
+    <h1>WebSocket - Status</h1>
+
+    <form>
+      <input type="text" placeholder="Enviar mensaje" />
+      <button>Enviar</button>
+    </form>
+
+    <ul id="messages"></ul>
+
+    <script>
+      const socket = new WebSocket("ws://localhost:3000");
+
+      socket.onopen = (event) => {
+        console.log(event);
+        console.log("Connected to websocket ✅");
+      };
+
+      socket.onclose = (event) => {
+        console.log(event);
+        console.log("Disconnected to websocket⚡");
+      };
+    </script>
+  </body>
+</html>
