@@ -28,14 +28,18 @@ En esta sección comenzaremos a trabajar con los websockets, los cuales son una 
 
 ### \* RECURSOS A USAR:
 
+- Paquete `WebSocket library` usando `npm i ws` desde `https://www.npmjs.com/package/ws`
+
 - Paquete `nombre_paquete` usando `comando_paquete` desde `url_paquete`
-- Paquete `nombre_paquete` usando `comando_paquete` desde `url_paquete`
+
 - Paquete `nombre_paquete` usando `comando_paquete` desde `url_paquete`
 
 ### \* NOTAS:
 
+- Más información sobre los WebSockets https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+
 - ejemplo
-- ejemplo
+
 - ejemplo
 
 ---
