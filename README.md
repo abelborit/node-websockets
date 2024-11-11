@@ -30,6 +30,8 @@ En esta sección comenzaremos a trabajar con los websockets, los cuales son una 
 
 - Paquete `WebSocket library` usando `npm i ws` desde `https://www.npmjs.com/package/ws`
 
+  - Para los tipos `npm i --save-dev @types/ws`
+
 - Paquete `nombre_paquete` usando `comando_paquete` desde `url_paquete`
 
 - Paquete `nombre_paquete` usando `comando_paquete` desde `url_paquete`
