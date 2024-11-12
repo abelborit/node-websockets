@@ -1,4 +1,4 @@
-import { WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 
 /* este "wss" es nuesto WebSocket Server */
 const wss = new WebSocketServer({ port: 3000 });
@@ -21,7 +21,13 @@ wss.on("connection", function connection(ws) {
       payload: data.toString().toUpperCase(), // aquí estamos regresándole al cliente lo que él mismo envió al servidor pero se lo enviaremos todo en mayúsculas
     });
 
-    ws.send(payload);
+    // ws.send(payload);
+    /* haremos un "Server Broadcast", es decir, haremos que el cliente del websocket esté haciendo la emisión a todos los websockets (que son todos los clientes conectados) incluyéndose a sí mismo */
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(payload, { binary: false });
+      }
+    });
   });
 
   // ws.send("Hello from server");
