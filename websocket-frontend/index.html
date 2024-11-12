@@ -20,6 +20,21 @@
     <script>
       const socket = new WebSocket("ws://localhost:3000");
 
+      const form = document.querySelector("form");
+      const input = document.querySelector("input");
+
+      function sendMessage(message) {
+        console.log({ message });
+        socket?.send(message);
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const message = input.value;
+        sendMessage(message);
+        input.value = null;
+      });
+
       socket.onopen = (event) => {
         console.log(event);
         console.log("Connected to websocket ✅");
