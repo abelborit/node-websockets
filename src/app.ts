@@ -20,11 +20,21 @@ wss.on("connection", function connection(ws) {
       type: "custom-message",
       payload: data.toString().toUpperCase(), // aquí estamos regresándole al cliente lo que él mismo envió al servidor pero se lo enviaremos todo en mayúsculas
     });
-
     // ws.send(payload);
+
+    /* NOTA: hay que tener en cuenta que los clientes no están vinculados directamente, es decir, los mensajes o la data que se envía desde el cliente va al servidor y el servidor es quien decide a qué cliente va esa data */
+    /* Server Broadcast - Incluyente */
     /* haremos un "Server Broadcast", es decir, haremos que el cliente del websocket esté haciendo la emisión a todos los websockets (que son todos los clientes conectados) incluyéndose a sí mismo */
+    // wss.clients.forEach(function each(client) {
+    //   if (client.readyState === WebSocket.OPEN) {
+    //     client.send(payload, { binary: false });
+    //   }
+    // });
+
+    /* Server Broadcast - Excluyente */
+    /* haremos otro tipo de "Server Broadcast", es decir, aquí haremos que el cliente del websocket esté haciendo la emisión a todos los websockets (que son todos los clientes conectados) pero NO incluyéndose a sí mismo */
     wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(payload, { binary: false });
       }
     });
