@@ -8,7 +8,7 @@
 
   <!-- para levantar el frontend colocaremos en la termianl -- npx http-server -o -- -->
   <body>
-    <h1>WebSocket - Status</h1>
+    <h1>WebSockets - <small>Status</small></h1>
 
     <form>
       <input type="text" placeholder="Enviar mensaje" />
@@ -18,11 +18,12 @@
     <ul id="messages"></ul>
 
     <script>
-      const socket = new WebSocket("ws://localhost:3000");
+      let socket = null;
 
       const form = document.querySelector("form");
       const input = document.querySelector("input");
       const messagesElem = document.querySelector("#messages");
+      const statusElem = document.querySelector("small");
 
       function sendMessage(message) {
         // console.log({ message });
@@ -42,24 +43,39 @@
         input.value = null;
       });
 
-      socket.onopen = (event) => {
-        // console.log(event);
-        console.log("Connected to websocket ✅");
-      };
+      function connectToServer() {
+        socket = new WebSocket("ws://localhost:3000");
 
-      socket.onclose = (event) => {
-        // console.log(event);
-        console.log("Disconnected to websocket⚡");
-      };
+        socket.onopen = (event) => {
+          // console.log(event);
+          console.log("Connected to websocket ✅");
 
-      socket.onmessage = (event) => {
-        // console.log(event);
+          statusElem.innerText = "Online";
+        };
 
-        /* como estamos recibiendo la data como un string entonces usamos JSON.parse(.....) para serializarlo a un objeto */
-        const { payload } = JSON.parse(event.data);
+        socket.onclose = (event) => {
+          // console.log(event);
+          console.log("Disconnected to websocket⚡");
 
-        renderMessage(payload);
-      };
+          statusElem.innerText = "Offline";
+
+          /* como recomendación, cuando se quiera aplicar alguna técnica segura o el tratar de conectar al servidor cada cierto tiempo, sería bueno multiplicar el tiempo que queremos darle por un número random, porque por ejemplo, si tenemos 1,000,000 usuarios entonces todos harían, de cierta forma, esa reconexión en tiempos diferentes y eso ayudaría a la base de datos y al servidor en que no todos manden una petición al mismo tiempo porque puede colapsar */
+          setTimeout(() => {
+            connectToServer();
+          }, 1500);
+        };
+
+        socket.onmessage = (event) => {
+          // console.log(event);
+
+          /* como estamos recibiendo la data como un string entonces usamos JSON.parse(.....) para serializarlo a un objeto */
+          const { payload } = JSON.parse(event.data);
+
+          renderMessage(payload);
+        };
+      }
+
+      connectToServer();
     </script>
   </body>
 </html>
