@@ -22,10 +22,17 @@
 
       const form = document.querySelector("form");
       const input = document.querySelector("input");
+      const messagesElem = document.querySelector("#messages");
 
       function sendMessage(message) {
-        console.log({ message });
+        // console.log({ message });
         socket?.send(message);
+      }
+
+      function renderMessage(message) {
+        const li = document.createElement("li");
+        li.innerHTML = message;
+        messagesElem.prepend(li);
       }
 
       form.addEventListener("submit", (event) => {
@@ -36,13 +43,22 @@
       });
 
       socket.onopen = (event) => {
-        console.log(event);
+        // console.log(event);
         console.log("Connected to websocket ✅");
       };
 
       socket.onclose = (event) => {
-        console.log(event);
+        // console.log(event);
         console.log("Disconnected to websocket⚡");
+      };
+
+      socket.onmessage = (event) => {
+        // console.log(event);
+
+        /* como estamos recibiendo la data como un string entonces usamos JSON.parse(.....) para serializarlo a un objeto */
+        const { payload } = JSON.parse(event.data);
+
+        renderMessage(payload);
       };
     </script>
   </body>
